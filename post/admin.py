@@ -1,3 +1,7 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 
-# Register your models here.
+from post.models import Comment, User
+
+admin.site.register(Comment)
+admin.site.register(User, UserAdmin)
