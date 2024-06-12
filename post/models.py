@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import EmailValidator, URLValidator
 from django.db import models
 
 
@@ -12,6 +13,10 @@ class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE,
                              related_name="comments")
+    email = models.EmailField(validators=[EmailValidator()])
+    home_page = models.URLField(blank=True,
+                                null=True,
+                                validators=[URLValidator()])
     comment_text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     parent = models.ForeignKey('self',
