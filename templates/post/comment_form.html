@@ -1,8 +1,11 @@
+{% extends "base.html" %}
+{% load crispy_forms_filters %}
+{% block content %}
 <form method="post" action="">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form|crispy }}
     <input type="hidden" name="parent_id" id="parent_id">
-    <button type="submit">Submit</button>
+    <button class="btn btn-primary" type="submit">Submit</button>
 </form>
 
 <script>
@@ -12,3 +15,4 @@ document.querySelectorAll('.reply').forEach(button => {
     });
 });
 </script>
+{% endblock %}
