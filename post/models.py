@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import EmailValidator, URLValidator
 from django.db import models
+from django.utils.html import strip_tags
 
 
 class User(AbstractUser):
@@ -27,6 +28,10 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+
+    def save(self, *args, **kwargs):
+        self.comment_text = strip_tags(self.comment_text)  # Remove unwanted HTML tags
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Comment by {self.user.username} on {self.created_at}"
