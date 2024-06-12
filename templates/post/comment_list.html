@@ -10,19 +10,51 @@
         <div class="col-sm-9">
             <h1>Comment List</h1>
             <h3>Comments:</h3>
+            {% if comment_list %}<table class="table offset-lg-0.5">
+            <tr>
+                <th>Name</th>
+                <th>email</th>
+                <th>Data</th>
+                <th>Comment</th>
+              </tr>
+            <thead>
+            <tr>
+                <th><a href="?sort=user__username&order={% if request.GET.order == 'asc' %}desc{% else %}asc{% endif %}">User Name</a></th>
+                <th><a href="?sort=user__email&order={% if request.GET.order == 'asc' %}desc{% else %}asc{% endif %}">Email</a></th>
+                <th><a href="?sort=created_at&order={% if request.GET.order == 'asc' %}desc{% else %}asc{% endif %}">Date</a></th>
+            </tr>
+            </thead>
             {% for comment in comment_list %}
             <tr>
                 <td>{{ comment.user.username }}</td>
                 <td>{{ comment.user.email }}</td>
                 <td>{{ comment.created_at }}</td>
                 <td>{{ comment.comment_text }}</td>
-
             </tr>
             {% endfor %}
+            {% endif %}
         </div>
     </div>
 </div>
 
 </body>
+     <div>
+        {% if is_paginated %}
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
 
-{% endblock content %}
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">last</a>
+                {% endif %}
+            </span>
+        {% endif %}
+    </div>
+{% endblock %}
