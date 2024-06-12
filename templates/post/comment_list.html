@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}<title>Comment List</title>{% endblock %}
-{% block content %}
+{% block content  %}
 <body>
 <div class="container-fluid">
     <div class="row">
@@ -19,26 +19,19 @@
               </tr>
             <thead>
             <tr>
-                <th><a href="?sort=user__username&order={% if request.GET.order == 'asc' %}desc{% else %}asc{% endif %}">User Name</a></th>
-                <th><a href="?sort=user__email&order={% if request.GET.order == 'asc' %}desc{% else %}asc{% endif %}">Email</a></th>
-                <th><a href="?sort=created_at&order={% if request.GET.order == 'asc' %}desc{% else %}asc{% endif %}">Date</a></th>
+                <th><a href="?sort=user__username&order={% if request.GET.order == 'asc' %}desc{% else %}asc{% endif %}">Sort Name</a></th>
+                <th><a href="?sort=user__email&order={% if request.GET.order == 'asc' %}desc{% else %}asc{% endif %}">Sort Email</a></th>
+                <th><a href="?sort=created_at&order={% if request.GET.order == 'asc' %}desc{% else %}asc{% endif %}">Sort Date</a></th>
             </tr>
             </thead>
-            {% for comment in comment_list %}
-            <tr>
-                <td>{{ comment.user.username }}</td>
-                <td>{{ comment.user.email }}</td>
-                <td>{{ comment.created_at }}</td>
-                <td>{{ comment.comment_text }}</td>
-            </tr>
-            {% endfor %}
+            <tbody>
+                    {% for comment in comment_list %}
+                        {% include 'post/comment_item.html' with comment=comment %}
+                    {% endfor %}
+                </tbody>
+            </table>
             {% endif %}
-        </div>
-    </div>
-</div>
-
-</body>
-     <div>
+    <div>
         {% if is_paginated %}
             <span class="step-links">
                 {% if page_obj.has_previous %}

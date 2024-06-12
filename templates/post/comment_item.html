@@ -1,0 +1,15 @@
+<tr>
+    <td colspan="4">
+        <div style="margin-left: {% if comment.parent %}40px{% endif %};">
+            <strong>{{ comment.user.username }}</strong> ({{ comment.user.email }}) - {{ comment.created_at }}
+            <p>{{ comment.comment_text }}</p>
+            {% if comment.replies.all %}
+                <table>
+                    {% for reply in comment.replies.all %}
+                        {% include 'post/comment_item.html' with comment=reply %}
+                    {% endfor %}
+                </table>
+            {% endif %}
+        </div>
+    </td>
+</tr>
