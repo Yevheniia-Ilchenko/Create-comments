@@ -1,0 +1,14 @@
+<form method="post" action="">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="hidden" name="parent_id" id="parent_id">
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+document.querySelectorAll('.reply').forEach(button => {
+    button.addEventListener('click', function() {
+        document.getElementById('parent_id').value = this.dataset.id;
+    });
+});
+</script>

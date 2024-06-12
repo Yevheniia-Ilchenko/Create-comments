@@ -1,5 +1,7 @@
+from django.urls import reverse_lazy
 from django.views import generic
 
+from post.forms import CommentForm
 from post.models import Comment
 
 
@@ -19,3 +21,16 @@ class CommentListView(generic.ListView):
                 queryset = queryset.order_by(f'-{sort_field}')
 
         return queryset
+
+
+class CommentCreateView(generic.CreateView):
+    model = Comment
+    form_class = CommentForm
+    success_url = reverse_lazy("comment-list")
+
+    def form_valid(self, form):
+        parent_id = self.request.POST.get("parent_id")
+        if parent_id:
+            parent_comment = Comment.objects.get(id=parent_id)
+            form.instance.parent = parent_comment
+        return super().form_valid(form)
