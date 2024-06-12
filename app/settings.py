@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "post",
     "crispy_forms",
     "crispy_bootstrap4",
+    "captcha",
 ]
 
 MIDDLEWARE = [
@@ -130,3 +131,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "post.User"
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+CAPTCHA_IMAGE_SIZE = (240, 100)
