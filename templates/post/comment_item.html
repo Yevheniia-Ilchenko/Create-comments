@@ -1,8 +1,8 @@
 <tr>
     <td colspan="4">
         <div style="margin-left: {% if comment.parent %}40px{% endif %};">
-            <strong>{{ comment.user.username }}</strong> ({{ comment.user.email }}) - {{ comment.created_at }}
-            <p>{{ comment.comment_text }}</p>
+            <strong>{{ comment.user.username }}</strong><a href="{% url 'post:comment-create' %}"> - {{ comment.created_at }}
+            <p>{{ comment.comment_text }}</p></a>
             {% if comment.replies.all %}
                 <table>
                     {% for reply in comment.replies.all %}

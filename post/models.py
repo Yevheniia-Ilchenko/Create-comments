@@ -1,3 +1,4 @@
+from PIL import Image
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import EmailValidator, URLValidator
@@ -25,6 +26,12 @@ class Comment(models.Model):
                                blank=True,
                                on_delete=models.CASCADE,
                                related_name="replies")
+    image = models.ImageField(upload_to="comment_images/",
+                              blank=True,
+                              null=True)
+    file = models.FileField(upload_to="comment_files/",
+                            blank=True,
+                            null=True)
 
     class Meta:
         ordering = ["-created_at"]
@@ -32,6 +39,12 @@ class Comment(models.Model):
     def save(self, *args, **kwargs):
         self.comment_text = strip_tags(self.comment_text)
         super().save(*args, **kwargs)
+        if self.image:
+            img = Image.open(self.image.path)
+            if img.height > 320 or img.width > 240:
+                output_size = (320, 240)
+                img.thumbnail(output_size)
+                img.save(self.image.path)
 
     def __str__(self):
         return f"Comment by {self.user.username} on {self.created_at}"
