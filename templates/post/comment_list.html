@@ -6,16 +6,13 @@
     <div class="row">
         <div class="col-sm-3">
             <a href="{% url 'post:comment-list' %}">Home</a>
-        </div>
+        </div></div></div>
         <div class="col-sm-9">
             <h1>Comment List</h1>
             <h3>Comments:</h3>
             {% if comment_list %}<table class="table offset-lg-0.5">
             <tr>
-                <th>Name</th>
-                <th>email</th>
-                <th>Data</th>
-                <th>Comment</th>
+                <th>Comments</th>
               </tr>
             <thead>
             <tr>
@@ -31,6 +28,7 @@
                 </tbody>
             </table>
             {% endif %}
+        </div>
     <div>
         {% if is_paginated %}
             <span class="step-links">

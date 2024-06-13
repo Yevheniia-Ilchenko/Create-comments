@@ -20,17 +20,17 @@ class Comment(models.Model):
                                 validators=[URLValidator()])
     comment_text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    parent = models.ForeignKey('self',
+    parent = models.ForeignKey("self",
                                null=True,
                                blank=True,
                                on_delete=models.CASCADE,
-                               related_name='replies')
+                               related_name="replies")
 
     class Meta:
         ordering = ["-created_at"]
 
     def save(self, *args, **kwargs):
-        self.comment_text = strip_tags(self.comment_text)  # Remove unwanted HTML tags
+        self.comment_text = strip_tags(self.comment_text)
         super().save(*args, **kwargs)
 
     def __str__(self):
