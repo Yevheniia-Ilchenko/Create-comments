@@ -1,14 +1,25 @@
+import os
+import uuid
+
 from PIL import Image
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import EmailValidator, URLValidator
 from django.db import models
 from django.utils.html import strip_tags
+from django.utils.text import slugify
 
 
 class User(AbstractUser):
     class Meta:
         ordering = ["username", ]
+
+
+def upload_image_file(instance, filename):
+    _, extension = os.path.splitext(filename)
+    filename = f"{slugify(instance.user)}-{uuid.uuid4()}{extension}"
+
+    return os.path.join("comment_image/", filename)
 
 
 class Comment(models.Model):
@@ -26,10 +37,10 @@ class Comment(models.Model):
                                blank=True,
                                on_delete=models.CASCADE,
                                related_name="replies")
-    image = models.ImageField(upload_to="comment_images/",
+    image = models.ImageField(upload_to=upload_image_file,
                               blank=True,
                               null=True)
-    file = models.FileField(upload_to="comment_files/",
+    file = models.FileField(upload_to=upload_image_file,
                             blank=True,
                             null=True)
 

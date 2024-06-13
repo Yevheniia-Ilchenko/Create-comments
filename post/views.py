@@ -1,4 +1,5 @@
-from django.urls import reverse_lazy
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy, reverse
 from django.views import generic
 
 from post.forms import CommentForm
@@ -34,3 +35,13 @@ class CommentCreateView(generic.CreateView):
             parent_comment = Comment.objects.get(id=parent_id)
             form.instance.parent = parent_comment
         return super().form_valid(form)
+
+    def add_comment(self, request, *args, **kwargs):
+        if request.method == 'POST':
+            form = CommentForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+                return redirect(reverse('comment-list'))
+        else:
+            form = CommentForm()
+        return render(request, 'comment_form.html', {'form': form})
