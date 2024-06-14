@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}<title>Comment List</title>{% endblock %}
+{% block content  %}
+<div>
+        <div class="col-sm-9">
+            <h1 class="text-center">Comment List</h1>
+
+            {% if comment_list %}<table class="table offset-lg-0.5">
+            <tr>
+                <th>Comments</th>
+              </tr>
+            <thead>
+            <tr>
+                <th><a href="?sort=user__username&order={% if request.GET.order == 'asc' %}desc{% else %}asc{% endif %}">Sort Name</a></th>
+                <th><a href="?sort=user__email&order={% if request.GET.order == 'asc' %}desc{% else %}asc{% endif %}">Sort Email</a></th>
+                <th><a href="?sort=created_at&order={% if request.GET.order == 'asc' %}desc{% else %}asc{% endif %}">Sort Date</a></th>
+            </tr>
+            </thead>
+            <tbody>
+                    {% for comment in comment_list %}
+                        {% include 'post/comment_item.html' with comment=comment %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+
+        </div>
+    <div>
+        {% if is_paginated %}
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">last</a>
+                {% endif %}
+            </span>
+        {% endif %}
+    </div>
+{% endblock %}
+</div>
