@@ -1,15 +1,10 @@
 {% extends "base.html" %}
 {% block title %}<title>Comment List</title>{% endblock %}
 {% block content  %}
-<body>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-3">
-            <a href="{% url 'post:comment-list' %}">Home</a>
-        </div></div></div>
+<div>
         <div class="col-sm-9">
-            <h1>Comment List</h1>
-            <h3>Comments:</h3>
+            <h1 class="text-center">Comment List</h1>
+
             {% if comment_list %}<table class="table offset-lg-0.5">
             <tr>
                 <th>Comments</th>
@@ -28,6 +23,7 @@
                 </tbody>
             </table>
             {% endif %}
+
         </div>
     <div>
         {% if is_paginated %}
@@ -49,3 +45,4 @@
         {% endif %}
     </div>
 {% endblock %}
+</div>

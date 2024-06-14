@@ -1,11 +1,12 @@
 import os
 import uuid
-
 from PIL import Image
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator, URLValidator
 from django.db import models
+from django.urls import reverse
 from django.utils.html import strip_tags
 from django.utils.text import slugify
 

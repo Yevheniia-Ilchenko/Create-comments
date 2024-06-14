@@ -3,15 +3,21 @@
 {% endblock %}
 {% load crispy_forms_filters %}
 {% block content %}
-<div class="col-sm-9"><a href="{% url 'post:comment-list' %}">Home</a>
-            <h1>Comment Form</h1>
+<section>
+  <div class="container py-4">
+    <div class="row">
+      <div class="col-lg-7 mx-auto d-flex justify-content-center flex-column">
+<div>
+            <h1 class="text-center">Comment Form</h1>
 </div>
-<form method="post" action="" enctype="multipart/form-data">
+<form role="form" id="contact-form" method="post" action="" enctype="multipart/form-data">
+    <div class="card-body">
+
     {% csrf_token %}
     {{ form.media }}
     {{ form|crispy }}
     <input type="hidden" name="parent_id" id="parent_id">
-    <button class="btn btn-primary" type="submit">Submit</button>
+    <button class="btn btn-secondary w-100" type="submit">Send comment</button>
 </form>
 
 <script>
@@ -22,3 +28,7 @@ document.querySelectorAll('.reply').forEach(button => {
 });
 </script>
 {% endblock %}
+    </div>
+  </div>
+  </div>
+</section>

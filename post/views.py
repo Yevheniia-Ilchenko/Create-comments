@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views import generic
 
@@ -36,12 +36,20 @@ class CommentCreateView(generic.CreateView):
             form.instance.parent = parent_comment
         return super().form_valid(form)
 
-    def add_comment(self, request, *args, **kwargs):
-        if request.method == 'POST':
-            form = CommentForm(request.POST, request.FILES)
-            if form.is_valid():
-                form.save()
-                return redirect(reverse('comment-list'))
-        else:
-            form = CommentForm()
-        return render(request, 'comment_form.html', {'form': form})
+
+def add_comment(request, parent_comment_id=None):
+    parent_comment = None
+    if parent_comment_id:
+        parent_comment = get_object_or_404(Comment, id=parent_comment_id)
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST, request.FILES)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.parent = parent_comment
+            comment.save()
+            return redirect(reverse('post:comment-list'))
+    else:
+        form = CommentForm()
+
+    return render(request, 'comment_form.html', {'form': form})

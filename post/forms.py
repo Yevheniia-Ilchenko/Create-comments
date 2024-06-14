@@ -1,7 +1,6 @@
 from django import forms
 from captcha.fields import CaptchaField
 from django.core.exceptions import ValidationError
-from django.utils.html import strip_tags
 
 from post.models import Comment
 
@@ -21,11 +20,6 @@ class CommentForm(forms.ModelForm):
                   "image",
                   "file"]
 
-    # def clean_comment_text(self):
-    #     text = self.cleaned_data.get("comment_text")
-    #     allowed_tags = ["b", "i", "u", "a"]
-    #     return strip_tags(text, allowed_tags)
-
     def clean_file(self):
         file = self.cleaned_data.get("file")
 
@@ -37,12 +31,3 @@ class CommentForm(forms.ModelForm):
                 raise ValidationError("The text file size should not exceed 100 kb.")
 
         return file
-
-    def clean_image(self):
-        image = self.cleaned_data.get("image")
-
-        if image:
-            if image.size > 320 * 240:
-                raise ValidationError("The image is too large. Acceptable size: 320x240 pixels.")
-
-        return image

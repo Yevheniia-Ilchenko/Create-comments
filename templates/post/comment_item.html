@@ -2,8 +2,12 @@
     <td colspan="4">
         <div style="margin-left: {% if comment.parent %}40px{% endif %};">
             <form method="post" enctype="multipart/form-data">
-            <strong>{{ comment.user.username }}</strong><a href="{% url 'post:comment-create' %}"> - {{ comment.created_at }}
+
+            <strong>{{ comment.user.username }}</strong><p>{{ comment.created_at }}</p>
+                <a href="{% url 'post:comment-create' %}">
+
             <p>{{ comment.comment_text }}
+
                 {% if comment.image %}
                         <div>
                             <img src="{{ comment.image.url }}" alt="Comment Image" style="max-width: 320px; max-height: 240px;">
@@ -15,13 +19,15 @@
                 </div>
                     {% endif %}
             </p></a>
+
+
             {% if comment.replies.all %}
-                <table>
+            <table>
                     {% for reply in comment.replies.all %}
                         {% include 'post/comment_item.html' with comment=reply %}
                     {% endfor %}
                 </table>
-            {% endif %}
+        {% endif %}
             </form>
         </div>
     </td>
