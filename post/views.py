@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views import generic
+from django.views.decorators.http import require_POST
 
 from post.forms import CommentForm
 from post.models import Comment
