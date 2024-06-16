@@ -7,28 +7,25 @@
   <div class="container py-4">
     <div class="row">
       <div class="col-lg-7 mx-auto d-flex justify-content-center flex-column">
-<div>
+        <div>
             <h1 class="text-center">Comment Form</h1>
-</div>
-<form role="form" id="contact-form" method="post" action="" enctype="multipart/form-data">
-    <div class="card-body">
+        </div>
+            <form role="form" id="contact-form" method="post" action="" enctype="multipart/form-data">
+                <div class="card-body">
 
-    {% csrf_token %}
-    {{ form.media }}
-    {{ form|crispy }}
-    <input type="hidden" name="parent_id" id="parent_id">
-    <button class="btn btn-secondary w-100" type="submit">Send comment</button>
-</form></div>
-
-<script>
-document.querySelectorAll('.reply').forEach(button => {
-    button.addEventListener('click', function() {
-        document.getElementById('parent_id').value = this.dataset.id;
-    });
-});
-</script>
-{% endblock %}
-    </div>
-  </div>
+                    {% csrf_token %}
+                    {{ form.media }}
+                    {{ form|crispy }}
+                    <input type="hidden" name="parent_id" id="parent_id">
+                    <button class="btn btn-secondary w-100" type="submit">Send comment</button>
+                </div>
+            </form>
+        </div>
+        </div>
   </div>
 </section>
+
+{% load static %}
+<script src="{% static 'js/button-reply.js' %}" crossorigin="anonymous"></script>
+
+{% endblock %}

@@ -59,4 +59,7 @@ class Comment(models.Model):
                 img.save(self.image.path)
 
     def __str__(self):
-        return f"Comment by {self.user.username} on {self.created_at}"
+        formatted_date = self.created_at.strftime('%d %b %Y, %H:%M')
+        return (f"Comment: {self.comment_text} "
+                f"by {self.user.username} "
+                f"on {formatted_date}")

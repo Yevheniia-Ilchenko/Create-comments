@@ -1,37 +1,31 @@
 <tr>
     <td colspan="4">
         <div style="margin-left: {% if comment.parent %}40px{% endif %};">
-            <form method="post" enctype="multipart/form-data">
-            <strong>{{ comment.user.username }}</strong><p>{{ comment.created_at }}</p>
-                    <p>{{ comment.comment_text }}
-                {% if comment.image %}
-                        <div>
-                            <img src="{{ comment.image.url }}" alt="Comment Image" style="max-width: 320px; max-height: 240px;">
-                        </div>
-                    {% endif %}
-                {% if comment.file %}
-                    <div>
-                        <p><strong>File: </strong><a href="{{ comment.file.url }}">{{ comment.file.name }}</a></p>
-                    </div>
+            <strong>{{ comment.user.username }}</strong>
+            <p>{{ comment.created_at }}</p>
+            <p>{{ comment.comment_text }}</p>
+            {% if comment.image %}
+                <div>
+                    <img src="{{ comment.image.url }}" alt="Comment Image" style="max-width: 320px; max-height: 240px;">
+                </div>
+            {% endif %}
+            {% if comment.file %}
+                <div>
+                    <p><strong>File: </strong><a href="{{ comment.file.url }}">{{ comment.file.name }}</a></p>
+                </div>
+            {% endif %}
+            <div class="comment">
+                <p>{{ comment.text }}</p>
+            </div>
+             <button class="reply" data-id="{{ comment.id }}"><a href="{% url 'post:comment-create' %}">Reply</a></button>
+                {% if comment.replies.all %}
+                    <table>
+                        {% for reply in comment.replies.all %}
+                            {% include 'post/comment_item.html' with comment=reply %}
+                        {% endfor %}
+                    </table>
                 {% endif %}
-                    <div class="comment">
-                        <p>{{ comment.text }}</p>
-                    </div>
-            </form>
-<form role="form" id="contact-form" method="post" action="" enctype="multipart/form-data">
-    <div class="card-body">
-    <p class="reply-btn" data-comment-id="{{ comment.id }}"></p><a href="{% url 'post:comment-create' %}">Reply</a>
-            {% if comment.replies.all %}
-            <table>
-                    {% for reply in comment.replies.all %}
-                        {% include 'post/comment_item.html' with comment=reply %}
-                    {% endfor %}
-
-            </table>
-        {% endif %}
-    </div>
-</form>
-        </div>
-    </td>
-</tr>
+            </div>
+        </td>
+    </tr>
 
