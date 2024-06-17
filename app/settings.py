@@ -136,16 +136,14 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-STATICFILES_DIRS = [BASE_DIR / "static", ]
+STATICFILES_DIRS = (BASE_DIR / "static", BASE_DIR / "media", )
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
-
-ASSETS_ROOT = "/static"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-# DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
