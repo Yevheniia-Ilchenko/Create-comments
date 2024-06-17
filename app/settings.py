@@ -29,6 +29,8 @@ SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DJANGO_DEBUG", "") != "False"
 
+DATABASE_TYPE = os.environ.get("DATABASE_TYPE", "")
+
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", "create-comments.onrender.com"]
 
 
@@ -90,7 +92,7 @@ DATABASES = {
     }
 }
 
-if not DEBUG:
+if DATABASE_TYPE == "postgres":
     DATABASES = {'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))}
 else:
     DATABASES = {
@@ -98,7 +100,6 @@ else:
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': 'db.sqlite3',
         }}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
