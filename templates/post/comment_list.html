@@ -5,9 +5,11 @@
         <div class="col-sm-9">
             <h1 class="text-center">Comment List</h1>
 
-            {% if comment_list %}<table class="table offset-lg-0.5">
+            <table class="table offset-lg-0.5">
             <tr>
-                <th>Comments</th>
+                <th>Comments:</th>
+                <th><a href="{% url 'post:comment-create' %}">Add comments</a></th>
+
               </tr>
             <thead>
             <tr>
@@ -20,9 +22,9 @@
                     {% for comment in comment_list %}
                         {% include 'post/comment_item.html' with comment=comment %}
                     {% endfor %}
+
                 </tbody>
             </table>
-            {% endif %}
 
         </div>
     <div>

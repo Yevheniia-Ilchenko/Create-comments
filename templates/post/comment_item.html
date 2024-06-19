@@ -2,33 +2,65 @@
     <td colspan="4">
         <div style="margin-left: {% if comment.parent %}40px{% endif %};">
             <form method="post" enctype="multipart/form-data">
+            <strong>{{ comment.user.username }}</strong>
+            <p>{{ comment.created_at }}</p>
+            <p>{{ comment.comment_text }}</p>
+            {% if comment.image %}
+                <div>
 
-            <strong>{{ comment.user.username }}</strong><p>{{ comment.created_at }}</p>
-                <a href="{% url 'post:comment-create' %}">
-
-            <p>{{ comment.comment_text }}
-
-                {% if comment.image %}
-                        <div>
-                            <img src="{{ comment.image.url }}" alt="Comment Image" style="max-width: 320px; max-height: 240px;">
-                        </div>
-                    {% endif %}
-                {% if comment.file %}
+                    <img src="{{ comment.image.url }}" alt="Comment Image" style="max-width: 320px; max-height: 240px;">
+                </div>
+                <a href="{{ comment.image.url }}">Show image</a>
+            {% endif %}
+            {% if comment.file %}
                 <div>
                     <p><strong>File: </strong><a href="{{ comment.file.url }}">{{ comment.file.name }}</a></p>
                 </div>
-                    {% endif %}
-            </p></a>
-
-
-            {% if comment.replies.all %}
-            <table>
-                    {% for reply in comment.replies.all %}
-                        {% include 'post/comment_item.html' with comment=reply %}
-                    {% endfor %}
-                </table>
-        {% endif %}
+            {% endif %}
+            <div class="comment">
+                <p>{{ comment.text }}</p>
+            </div>
+             <button class="reply" data-id="{{ comment.id }}"><a href="{% url 'post:comment-create' %}">Reply</a></button>
+                {% if comment.replies.all %}
+                    <table>
+                        {% for reply in comment.replies.all %}
+                            {% include 'post/comment_item.html' with comment=reply %}
+                        {% endfor %}
+                    </table>
+                {% endif %}
             </form>
-        </div>
-    </td>
-</tr>
+            </div>
+        </td>
+    </tr>
+
+<script type="text/javascript">
+    document.querySelectorAll('.reply').forEach(button => {
+        button.addEventListener('click', function() {
+            const id_comment = this.dataset.id;
+            connectWebSocket(id_comment);
+        });
+    });
+
+    function connectWebSocket(id_comment) {
+        const url = `ws://${window.location.host}/ws/socket-server/${id_comment}/`;
+        const chatSocket = new WebSocket(url);
+
+        chatSocket.onopen = function(e) {
+            console.log('WebSocket connection opened:', e);
+        };
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            console.log('Data:', data);
+        };
+
+        chatSocket.onerror = function(e) {
+            console.error('WebSocket error observed:', e);
+        };
+
+        chatSocket.onclose = function(e) {
+            console.log('WebSocket connection closed:', e);
+        };
+    }
+</script>
+
