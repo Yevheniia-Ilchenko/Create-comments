@@ -32,3 +32,33 @@
             </div>
         </td>
     </tr>
+<script type="text/javascript">
+    document.querySelectorAll('.reply').forEach(button => {
+        button.addEventListener('click', function() {
+            const id_comment = this.dataset.id;
+            connectWebSocket(id_comment);
+        });
+    });
+
+    function connectWebSocket(id_comment) {
+        const url = `ws://${window.location.host}/ws/socket-server/${id_comment}/`;
+        const chatSocket = new WebSocket(url);
+
+        chatSocket.onopen = function(e) {
+            console.log('WebSocket connection opened:', e);
+        };
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            console.log('Data:', data);
+        };
+
+        chatSocket.onerror = function(e) {
+            console.error('WebSocket error observed:', e);
+        };
+
+        chatSocket.onclose = function(e) {
+            console.log('WebSocket connection closed:', e);
+        };
+    }
+</script>
